@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding ="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        IOC:invoice of control 控制反转，将对象创建权交给spring。
+        DI:Dependency Injection 依赖注入，在spring框架中负责创建Bean对象时，动态的将依赖对象注入到Bean组件中。
+        依赖注入有两种方式：
+            1、属性的set方法注入
+            2、属性构造方法方式注入
+            3、数组、集合（list、set、map），Properties等注入方式
+    -->
+
+    <!--把UserServiceImpl类交给IOC来进行管理，对象由IOC容器来创建
+        bean标签的属性：
+        id属性：表示此对象在IOC容器中唯一的名称，要求编写时是唯一的
+        class属性：表示管理类的全路径（包名+类名），通过java的反射技术来创建实例对象
+        scope属性：表示创建后对象的生命周期（作用范围）
+            singleton   默认值，单例的，IOC容器中只会存在一个实例的，加载配置文件时，实例对象就会被创建和容器的生命周期一样长
+                        。容器负责创建和销毁，开发中使用较多
+            prototype   多例的，从IOC容器中获取对象时，才会被创建实例对象，但容器不负责销毁。开发中使用较少
+            request     多例的，基本不会使用
+            session     多例的，基本不会使用
+        init-method     初始化方法
+        destroy-method  销毁的方法
+        实例化bean的三种方式
+        1、无参构造方法（默认方式，基本上使用最多）
+        2、静态工厂实例方法
+        3、实例工厂实例化方法
+        <bean id = "us" class = "com.ct.service.UserServiceImpl" scope="singleton" init-method="Hello" destroy-method="hello1"/>
+    -->
+    <!--DI-->
+    <!--属性的set方法注入-->
+    <bean id="os" class="com.ct.service.OrderServiceImpl">
+        <!--如果是引用类型时，用ref-->
+        <property name="orderDao" ref="od"/>
+        <!--如果是数据类型时，用value-->
+        <property name="msg" value="你好！陈铁文，你已经"/>
+        <property name="age" value="26"/>
+    </bean>
+    <bean id="od" class="com.ct.dao.OrderDaoImpl"></bean>
+    <!--
+    属性的构造方法的方式注入
+    <bean id="or" class="com.ct.service.OrderServiceImpl">
+        <constructor-arg name="msg" value="ll"/>
+    </bean>
+    -->
+    <!--引入其他配置文件-->
+    <import resource="applicationContext_by.xml"/>
+
+</beans>
+
+
+
+
